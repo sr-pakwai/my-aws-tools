@@ -1,0 +1,12 @@
+module.exports = {
+  TimePeriod: {
+    End: '2022-05-28', /* Fill the end date */
+    Start: '2022-02-01', /* Fill the start date  */
+  },
+  LinkedAccounts: [
+    '789562329123',
+  ],
+  TeamTags: [
+    'tools',
+  ],
+};
