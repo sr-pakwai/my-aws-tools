@@ -36,6 +36,12 @@ async function GetCostAndUsageBy(TimePeriod, LinkedAccount, TeamTag, SaveOutput 
       ],
     },
   };
+
+  if (TeamTag === 'team:no-tag')
+    params.Filter.And[1].Tags = {
+      Key: 'Team',
+      MatchOptions: ['ABSENT'],
+    };
   
   const data = await new Promise((resolve, reject) =>
     costexplorer.getCostAndUsage(params, (err, data) => {

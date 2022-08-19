@@ -12,3 +12,8 @@ Once generated, you can plug the CSV to DataStudio to visualize the usage and co
 2. Rename the `config.js.sample` to `config.js`. And, fill in the needed information in the configuration.
 3. `npm install`
 4. `npm start`
+
+# Development
+
+1. Update `USE_SAVED_FILE` flag in the index if you're doing for development and want to reduce the load of query to the AWS.
+2. For development run `npm run dev` instead for hotloading with nodemon.

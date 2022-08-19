@@ -3,7 +3,7 @@ import aws from './aws-utils';
 import * as csvWriter from 'csv-writer';
 import config from './config';
 
-const USE_SAVED_FILE = true;
+const USE_SAVED_FILE = false;
 
 (async function start() {
   try {
