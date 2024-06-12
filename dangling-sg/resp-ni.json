@@ -1,0 +1,81 @@
+{
+  "$metadata": {
+    "httpStatusCode": 200,
+    "requestId": "3408529e-4e3d-4976-bf85-096a1113b118",
+    "extendedRequestId": "undefined",
+    "cfId": "undefined",
+    "attempts": 1,
+    "totalRetryDelay": 0
+  },
+  "NetworkInterfaces": [
+    {
+      "InterfaceType": "interface",
+      "NetworkInterfaceId": "eni-005d00bbf4ea4ea3e",
+      "Description": "ELB app/scooter-lrs-lb/dff1e2e2b42a531e",
+      "Groups": [
+        {
+          "GroupName": "default",
+          "GroupId": "sg-08006676"
+        }
+      ],
+      "Status": "in-use"
+    },
+    {
+      "InterfaceType": "nat_gateway",
+      "NetworkInterfaceId": "eni-019a466116f68c7c0",
+      "Description": "Interface for NAT Gateway nat-03fce82da95dda954",
+      "Groups": [],
+      "Status": "in-use"
+    },
+    {
+      "InterfaceType": "interface",
+      "NetworkInterfaceId": "eni-070cf21254b90a08d",
+      "Description": "ELB app/airflow/663e5c49baadb075",
+      "Groups": [
+        {
+          "GroupName": "Airflow",
+          "GroupId": "sg-07ac3ac991a1c9f31"
+        }
+      ],
+      "Status": "in-use"
+    },
+    {
+      "InterfaceType": "nat_gateway",
+      "NetworkInterfaceId": "eni-035db0caeeceb5b8e",
+      "Description": "Interface for NAT Gateway nat-0110360b98c4a32fd",
+      "Groups": [],
+      "Status": "in-use"
+    },
+    {
+      "InterfaceType": "interface",
+      "NetworkInterfaceId": "eni-0ba7198c27a13ed0c",
+      "Description": "",
+      "Groups": [
+        {
+          "GroupName": "launch-wizard-1",
+          "GroupId": "sg-0e373399e4ec9a8b6"
+        }
+      ],
+      "Status": "in-use"
+    },
+    {
+      "InterfaceType": "nat_gateway",
+      "NetworkInterfaceId": "eni-09807e7cb488b2840",
+      "Description": "Interface for NAT Gateway nat-0016380320195d2bf",
+      "Groups": [],
+      "Status": "in-use"
+    },
+    {
+      "InterfaceType": "interface",
+      "NetworkInterfaceId": "eni-041c82110d6fa6e4a",
+      "Description": "RDSNetworkInterface",
+      "Groups": [
+        {
+          "GroupName": "rds-launch-wizard-3",
+          "GroupId": "sg-031be8e055528a764"
+        }
+      ],
+      "Status": "in-use"
+    }
+  ]
+}
