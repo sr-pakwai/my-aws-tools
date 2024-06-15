@@ -36,15 +36,19 @@ const listLambda = async ({ shouldLog = false, shouldcacheFile = false }) => {
   return output;
 };
 
-const getLambdaTags = async ({ lambdaArn, shouldLog = false }) => {
+const getLambdaTags = async ({ lambdaArn, shouldLog = false, shouldcacheFile = false }) => {
+  const fileName = '.cache/lambda-tag.json';
   const client = new LambdaClient({ region: 'us-west-2' });
   const command = new ListTagsCommand({ Resource: lambdaArn });
   const data = await client.send(command);
 
+  if (shouldcacheFile)
+    appendedToFile(fileName, JSON.stringify({ FunctionArn: lambdaArn, Tags: data.Tags }) + '\n');
+
   if (shouldLog)
     console.log('lambda tags:', lambdaArn, data.Tags);
 
-  return data.Tags;
+  return data?.Tags;
 };
 
 // export default listLambda;
