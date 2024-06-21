@@ -4,7 +4,7 @@ const { listLambda, getLambdaTags } = require('./aws-lambda');
 
 async function retrieve() {
   const shouldLog = false;
-  const useCache = true;
+  const useCache = false;
 
   const alarms = useCache
     ? await readFromFile('.cache/alarm.json')
@@ -44,7 +44,6 @@ async function main() {
     lambdaTags,
   } = await retrieve();
 
-  // const useCache = false;
   const shouldLog = false;
   const lambdaAlarm = alarms.filter(a => a.Namespace === 'AWS/Lambda');
 
