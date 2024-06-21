@@ -4,12 +4,12 @@ const { listLambda, getLambdaTags } = require('./aws-lambda');
 
 async function retrieve() {
   const shouldLog = false;
-  const useCache = false;
+  const useCache = true;
 
   const alarms = useCache
     ? await readFromFile('.cache/alarm.json')
     : await listAlarm({ shouldcacheFile: true, shouldLog });
-  shouldLog && console.log('alarms', alarms.length && alarms[0]);
+  shouldLog && console.log('alarms', alarms.length);
 
   const alarmTags = useCache
     ? await readFromFile('.cache/alarm-tag.json')
@@ -19,7 +19,7 @@ async function retrieve() {
   const lambdas = useCache
     ? await readFromFile('.cache/lambda.json')
     : await listLambda({ shouldcacheFile: true, shouldLog });
-  shouldLog && console.log('lambdas', lambdas.length && lambdas[0]);
+  shouldLog && console.log('lambdas', lambdas.length);
 
   const lambdaTags = useCache
     ? await readFromFile('.cache/lambda-tag.json')
@@ -44,6 +44,8 @@ async function main() {
     lambdaTags,
   } = await retrieve();
 
+  // useCache = false;
+  const tagsOverride = { Team: 'apps-x', Origin: 'DEX-989' };
   const shouldLog = false;
   const lambdaAlarm = alarms.filter(a => a.Namespace === 'AWS/Lambda');
 
@@ -53,7 +55,7 @@ async function main() {
     if (!functionName)
       continue;
 
-    await new Promise(resolve => setTimeout(resolve, 1000));
+    await new Promise(resolve => setTimeout(resolve, 500));
 
     const lambda = lambdas.find(l => l.FunctionName === functionName.Value);
     if (!lambda) {
@@ -87,7 +89,7 @@ async function main() {
       continue;
     }
 
-    Object.assign(lambdaTag, { Team: 'apps-x' }); // overwrite team tag to cost tracking
+    Object.assign(lambdaTag, tagsOverride); // overwrite team tag to cost tracking
     const data = await updateAlarmTag({ alarmArn: alarm.AlarmArn, shouldLog }, { tags: transformTagObjectToArray(lambdaTag) });
     console.log('Updated alarm', data);
   };
@@ -98,21 +100,22 @@ async function main() {
     if (alarm)
       continue;
 
-    await new Promise(resolve => setTimeout(resolve, 1000));
+    await new Promise(resolve => setTimeout(resolve, 500));
 
     console.log('Missing alarm', lambda.FunctionName);
 
     const lambdaTag = useCache
       ? lambdaTags.find(t => t.FunctionArn === lambda.FunctionArn)?.Tags
-      : await getLambdaTags(lambda.FunctionArn);
+      : await getLambdaTags({ lambdaArn: lambda.FunctionArn, shouldcacheFile: true  });
 
+    console.log('lambdaTag', lambdaTag);
     if (!lambdaTag) {
       console.log('Tag not found', lambda.FunctionName);
       console.log('Skip create alarm');
       continue;
     }
 
-    Object.assign(lambdaTag, { Team: 'apps-x' }); // overwrite team tag to cost tracking
+    Object.assign(lambdaTag, tagsOverride); // overwrite team tag to cost tracking
     const data = await createAlarm({ shouldLog }, {
       AlarmName: 'lambda-' + lambda.FunctionName + '-Errors',
       AlarmDescription: 'Errors alarm for ' + lambda.FunctionName,
@@ -129,7 +132,7 @@ async function main() {
           Value: lambda.FunctionName,
         },
       ],
-      Tags: transformTagObjectToArray(lambdaTag, { Team: 'apps-x' }),
+      Tags: transformTagObjectToArray(lambdaTag, tagsOverride),
     });
     console.log('Created alarm', data);
   };

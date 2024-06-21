@@ -9,6 +9,7 @@ const {
 } = require("@aws-sdk/client-cloudwatch");
 const appendedToFile = require('./append-to-file');
 
+const shouldMock = true;
 const mockAction = async (message, data) => 
   new Promise(resolve => setTimeout(() => {
     console.log('mock ' + message, data);
@@ -56,7 +57,8 @@ const listAlarm = async ({ shouldLog = false, shouldcacheFile = false }, filter)
 };
 
 const deleteAlarm = async ({ alarmName, shouldLog = false }) => {
-  // return await mockAction('deleteAlarm', alarmName);
+  if (shouldMock)
+    return await mockAction('deleteAlarm', alarmName);
 
   const client = new CloudWatchClient({ region: 'us-west-2' });
   const input = {
@@ -76,7 +78,8 @@ const deleteAlarm = async ({ alarmName, shouldLog = false }) => {
 };
 
 const createAlarm = async ({ shouldLog = false }, alarmInput) => {
-  // return await mockAction('createAlarm', alarmInput);
+  if (shouldMock)
+    return await mockAction('createAlarm', alarmInput);
 
   const client = new CloudWatchClient({ region: 'us-west-2' });
   const input = Object.assign({
@@ -148,7 +151,8 @@ const getAlarmTag = async ({ alarmArn, shouldLog = false, shouldcacheFile = fals
 };
 
 const updateAlarmTag = async ({ alarmArn, shouldLog = false }, { tags }) => {
-  // return await mockAction('updateAlarmTag', { alarmArn, tags });
+  if (shouldMock)
+    return await mockAction('updateAlarmTag', { alarmArn, tags });
 
   const client = new CloudWatchClient({ region: 'us-west-2' });
   const input = {

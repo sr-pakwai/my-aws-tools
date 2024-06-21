@@ -4,7 +4,7 @@ const appendedToFile = require('./append-to-file');
 const listLambda = async ({ shouldLog = false, shouldcacheFile = false }) => {
   const fileName = '.cache/lambda.json';
   const client = new LambdaClient({ region: 'us-west-2' });
-  const input = { MaxItems: 10 };
+  const input = { MaxItems: 50 };
   const output = [];
 
   console.log('processing list lambda...');
